@@ -1,0 +1,7 @@
+location ~ /app/campaign/(create|update|delete) {return 503; }
+location ~ /app/document/(create|update|delete) { return 503;}
+location ~ /app/class/(create|update|delete|roster/update) { return 503;}
+location ~ /app/observer/(create|update) {return 503;}
+location ~ /app/stream/read {return 503;}
+location ~ /app/survey_response/(upload|update|delete) {return 503;}
+location ~ /app/user/(register|activate|reset_password|change_password|create|setup|update|delete) {return 503;}

@@ -1,0 +1,6 @@
+build-essential
+ant
+tomcat7
+openjdk-7-jre-headless
+mariadb-server
+nginx

@@ -1,0 +1,62 @@
+upstream ohmage {
+  server 127.0.0.1:8080 fail_timeout=10s;
+}
+
+##LISTEN ON HTTPS##
+server {
+        listen 443;
+        ssl on;
+        ssl_certificate /path/to/cert/file.crt;
+        ssl_certificate_key /path/to/key/file.key;
+        root /var/www/;
+        index index.html MobilizeWeb.html;
+
+        #enable if read-onlying ohmage
+        #include includes/ro-ohmage;
+
+        #redirects root requests to /web, the ohmage frontend.
+        location = / {
+         rewrite ^ /web permanent;
+        }
+
+        #proxy ohmageServer requests to local tomcat.
+        location /app {
+         proxy_pass http://ohmage;
+         proxy_read_timeout  600s;
+         proxy_set_header X-Real-IP $remote_addr;
+         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         proxy_set_header Host $http_host;
+        }
+	
+	#provide an easy solution for quick password generation, used in the teacher tool
+        location /password {
+         proxy_pass http://makeagoodpassword.com/password/;
+        }
+
+        #deny access to legacy tomcat servlet dirs..and any .git dir
+        location ~ /\WEB-INF {
+                deny all;
+        }
+        location ~ /\META-INF {
+                deny all;
+        }
+        location ~ /\.git {                deny all;
+        }
+
+	#proxy ocpu-based traffic to an opencpu server
+        location /ocpu {
+          proxy_pass http://{ocpu_server_here}/ocpu;
+        }
+	
+	#specifically proxy traffic for the plotapp tool to an opencpu server
+        location /plotapp {
+          proxy_pass http://{ocpu_server_here}/ocpu/github/jeroenooms/plotbuilder/www;
+        }
+
+
+}
+##REDIRECT ALL HTTP REQUESTS TO HTTPS##
+server {
+        listen 80;
+        return 301 https://$host$request_uri;
+}
