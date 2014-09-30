@@ -13,9 +13,8 @@ command -v git >/dev/null 2>&1 || {
 }
 
 #now that that's done, clone the mobilize-in-a-box repo
-cd ~
 git clone https://github.com/stevenolen/mobilize-in-a-box
-cd ./mobilize-in-a-box
+cd mobilize-in-a-box
 chmod +x setup.sh
 
 #prepared.
