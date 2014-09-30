@@ -3,6 +3,12 @@ mobilize-in-a-box
 
 The goal of the mobilize-in-a-box project will be to easily replicate the entire infrastructure in use for the Mobilize deployment on another server at any time.  It will contain config files and scripts which will seek out all sub-project dependencies and set up the server in a more-or-less sane way.  The understanding of the information in this readme is quite important to your success when attempting to run/deploy. All instructions below (for the time being) assume you are installing this server on a linux distribution (namely, ubuntu or debian-alike).
 
+##GETTING STARTED
+Please read the CONFIG section below..but once you have, feel free to begin bootstrapping by executing this command as root. It will git clone this repo so we can get started!
+```
+curl https://raw.githubusercontent.com/stevenolen/mobilize-in-a-box/master/bootstrap.sh | bash
+```
+
 ##CONFIG
 
 ###ohmage
