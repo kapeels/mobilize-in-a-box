@@ -7,10 +7,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 #we'll use git alot, so we need that, certainly
-command -v git >/dev/null 2>&1 || {
-  echo "git not installed...installing now"
-  apt-get install -y git
-}
+command -v git >/dev/null 2>&1 || apt-get install -y git
 
 #now that that's done, clone the mobilize-in-a-box repo
 git clone https://github.com/stevenolen/mobilize-in-a-box
