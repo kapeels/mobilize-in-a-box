@@ -37,14 +37,14 @@ cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
 #######prepare the db.########
 echo "======= MySQL Root PW required to create 'ohmage' user ======"
-mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "\&\!sickly";'
+mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "\&\!sickly"; flush privileges;'
 #remove the create database lines in the first file. who put these there?!
-sed -i '1,5d' ./db/sql/base/ohmage-ddl.sql
-mysql -uohmage -p\&\!sickly ohmage < ./db/sql/base/ohmage-ddl
-mysql -uohmage -p\&\!sickly ohmage < ./db/sql/preferences/default_preferences.sql
-for i in `ls -1 ./db/sql/settings/`
+sed -i '1,5d' /root/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
+mysql -uohmage -p\&\!sickly ohmage < /root/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl
+mysql -uohmage -p\&\!sickly ohmage < /root/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
+for i in `ls -1d /root/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
  do
- echo "mysql -uohmage -p\&\!sickly ohmage < $i"
+ mysql -uohmage -p\&\!sickly ohmage < $i
 done
 
 #compile the gwt frontend
@@ -55,13 +55,13 @@ rm -rf /root/mobilize-in-a-box/git/gwt-front-end/extracted/
 mkdir /root/mobilize-in-a-box/git/gwt-front-end/extracted/
 cd /root/mobilize-in-a-box/git/gwt-front-end/extracted/
 jar xvf ../MobilizeWeb.war
-mkdir -p /var/www/webapps/
+mkdir -p /var/www/webapps/web
 cp -r * /var/www/webapps/web
 
 #move the other www code to it's rightful location
 cp -r /root/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /var/www/webapps/campaignAuthoringTool /var/www/webapps/authoring
 cp -r /root/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
 cp -r /root/mobilize-in-a-box/git/teacher /var/www/webapps/
-cp -r /root/mobilize-in-a-box/git/navbar /var/www
+cp -r /root/mobilize-in-a-box/git/navbar/ /var/www
 chown -R www-data.www-data /var/www
 
