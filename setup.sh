@@ -18,7 +18,7 @@ while read line
 do
   package=$line
   apt-get -y install $package 
-done < ../required_packages
+done < /opt/mobilize-in-a-box/required_packages
 
 #let's install the rest of the dependencies we need from apt
 mkdir -p /opt/mobilize-in-a-box/git && cd /opt/mobilize-in-a-box/git
@@ -26,7 +26,7 @@ while read line
 do
   repo=$line
   git clone $repo
-done < ../required_git_repos
+done < /opt/mobilize-in-a-box/required_git_repos
 
 #misc other packages we need. dokuwiki for a lightweight wiki
 wget -P /opt/mobilize-in-a-box/ http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
