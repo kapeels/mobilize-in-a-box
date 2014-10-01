@@ -28,6 +28,10 @@ do
   git clone $repo
 done < ../required_git_repos
 
+#misc other packages we need. dokuwiki for a lightweight wiki
+wget -P /opt/mobilize-in-a-box/ http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
+tar zxf /opt/mobilize-in-a-box/dokuwiki-stable.tgz -C /opt/mobilize-in-a-box/
+
 #######compile the server#######
 cd /opt/mobilize-in-a-box/git/ohmageServer
 git checkout ohmage-2.16-user_setup_password
@@ -63,5 +67,7 @@ cp -r /opt/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /va
 cp -r /opt/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
 cp -r /opt/mobilize-in-a-box/git/teacher /var/www/webapps/
 cp -r /opt/mobilize-in-a-box/git/navbar/ /var/www
+cp -r /opt/mobilize-in-a-box/dokuwiki*; mv /var/www/dokuwiki*/ /var/www/wiki
+cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
 chown -R www-data.www-data /var/www
 
