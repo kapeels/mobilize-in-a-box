@@ -21,7 +21,7 @@ do
 done < ../required_packages
 
 #let's install the rest of the dependencies we need from apt
-mkdir -p /root/mobilize-in-a-box/git && cd /root/mobilize-in-a-box/git
+mkdir -p /opt/mobilize-in-a-box/git && cd /opt/mobilize-in-a-box/git
 while read line
 do
   repo=$line
@@ -29,7 +29,7 @@ do
 done < ../required_git_repos
 
 #######compile the server#######
-cd /root/mobilize-in-a-box/git/ohmageServer
+cd /opt/mobilize-in-a-box/git/ohmageServer
 git checkout ohmage-2.16-user_setup_password
 ant clean dist
 service tomcat7 stop
@@ -39,29 +39,29 @@ cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 echo "======= MySQL Root PW required to create 'ohmage' user ======"
 mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "\&\!sickly"; flush privileges;'
 #remove the create database lines in the first file. who put these there?!
-sed -i '1,5d' /root/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
-mysql -uohmage -p\&\!sickly ohmage < /root/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl
-mysql -uohmage -p\&\!sickly ohmage < /root/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
-for i in `ls -1d /root/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
+sed -i '1,5d' /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
+mysql -uohmage -p\&\!sickly ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl
+mysql -uohmage -p\&\!sickly ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
+for i in `ls -1d /opt/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
  do
  mysql -uohmage -p\&\!sickly ohmage < $i
 done
 
 #compile the gwt frontend
-cd /root/mobilize-in-a-box/git/gwt-front-end
+cd /opt/mobilize-in-a-box/git/gwt-front-end
 git checkout mobilize
 ant clean build buildwar
-rm -rf /root/mobilize-in-a-box/git/gwt-front-end/extracted/
-mkdir /root/mobilize-in-a-box/git/gwt-front-end/extracted/
-cd /root/mobilize-in-a-box/git/gwt-front-end/extracted/
+rm -rf /opt/mobilize-in-a-box/git/gwt-front-end/extracted/
+mkdir /opt/mobilize-in-a-box/git/gwt-front-end/extracted/
+cd /opt/mobilize-in-a-box/git/gwt-front-end/extracted/
 jar xvf ../MobilizeWeb.war
 mkdir -p /var/www/webapps/web
 cp -r * /var/www/webapps/web
 
 #move the other www code to it's rightful location
-cp -r /root/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /var/www/webapps/campaignAuthoringTool /var/www/webapps/authoring
-cp -r /root/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
-cp -r /root/mobilize-in-a-box/git/teacher /var/www/webapps/
-cp -r /root/mobilize-in-a-box/git/navbar/ /var/www
+cp -r /opt/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /var/www/webapps/campaignAuthoringTool /var/www/webapps/authoring
+cp -r /opt/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
+cp -r /opt/mobilize-in-a-box/git/teacher /var/www/webapps/
+cp -r /opt/mobilize-in-a-box/git/navbar/ /var/www
 chown -R www-data.www-data /var/www
 

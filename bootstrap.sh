@@ -10,10 +10,9 @@ fi
 command -v git >/dev/null 2>&1 || apt-get install -y git
 
 #now that that's done, clone the mobilize-in-a-box repo
-git clone https://github.com/stevenolen/mobilize-in-a-box
-cd mobilize-in-a-box
-chmod +x setup.sh
+git clone https://github.com/stevenolen/mobilize-in-a-box /opt/mobilize-in-a-box
+chmod +x /opt/mobilize-in-a-box/setup.sh
 
 #prepared.
-echo "Setup is now prepared. Please execute setup.sh as root to set up"
+echo "Setup is now prepared. Please execute /opt/mobilize-in-a-box/setup.sh as root to set up"
 exit 0
