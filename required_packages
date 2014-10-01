@@ -4,3 +4,4 @@ tomcat7
 openjdk-7-jdk --no-install-recommends
 mariadb-server
 nginx
+php5-fpm

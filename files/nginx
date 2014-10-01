@@ -58,6 +58,27 @@ server {
           proxy_pass http://{ocpu_server_here}/ocpu/github/jeroenooms/plotbuilder/www;
         }
 
+        #support basic wiki.
+        location /wiki {
+                index doku.php;
+                try_files $uri $uri/ @dokuwiki;
+        }
+
+        location @dokuwiki {
+                rewrite ^/_media/(.*) /lib/exe/fetch.php?media=$1 last;
+                rewrite ^/_detail/(.*) /lib/exe/detail.php?media=$1 last;
+                rewrite ^/_export/([^/]+)/(.*) /doku.php?do=export_$1&id=$2 last;
+                rewrite ^/(.*) /doku.php?id=$1 last;
+        }
+
+        location ~ /wiki/\.php$ {
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_pass unix:/var/run/php-fpm.sock;
+        }
+        location ~ /wiki/(data|conf|bin|inc)/ {
+                deny all;
+        }
 
 }
 ##REDIRECT ALL HTTP REQUESTS TO HTTPS##
