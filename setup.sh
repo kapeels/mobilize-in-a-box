@@ -18,6 +18,7 @@ while read line
 do
   package=$line
   apt-get install $package -y
+  echo "####### DONE INSTALLING $package"
 done < /opt/mobilize-in-a-box/required_packages
 
 #let's install the rest of the dependencies we need from apt
