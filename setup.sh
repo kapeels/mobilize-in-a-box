@@ -15,6 +15,7 @@ apt-get update
 #let's install the rest of the dependencies we need from apt
 #TODO: right now we need to actually install x11 in order to get javac to compile the server/frontend..
 apt-get -y install openjdk-7-jdk --no-install-recommends < "/dev/null"
+export DEBIAN_FRONTEND=noninteractive
 apt-get -y install $(cat required_packages) < "/dev/null"
 
 #let's install the rest of the dependencies we need from apt
@@ -38,12 +39,11 @@ service tomcat7 stop
 cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
 #######prepare the db.########
-echo "======= MySQL Root PW required to create 'ohmage' user ======"
-mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "'$dbpw'"; flush privileges;'
+dbpw=`date | md5sum | head -c20`
+mysql -uroot -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "'$dbpw'"; flush privileges;'
 #remove the create database lines in the first file. who put these there?!
 sed -i '1,5d' /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
 #generate db pw
-dbpw=`date | md5sum | head -c20`
 mysql -uohmage --password=$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
 mysql -uohmage --password=$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
 for i in `ls -1d /opt/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
