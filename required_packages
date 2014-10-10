@@ -1,7 +1,7 @@
 build-essential
 ant
 tomcat7
-openjdk-7-jdk --no-install-recommends
+openjdk-7-jdk
 mariadb-server
 nginx
 php5-fpm

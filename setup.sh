@@ -14,12 +14,7 @@ apt-get update
 
 #let's install the rest of the dependencies we need from apt
 #TODO: right now we need to actually install x11 in order to get javac to compile the server/frontend..
-while read line
-do
-  package=$line
-  apt-get install $package -y
-  echo "####### DONE INSTALLING $package"
-done < /opt/mobilize-in-a-box/required_packages
+apt-get -y install --no-install-recommends < required_packages
 
 #let's install the rest of the dependencies we need from apt
 mkdir -p /opt/mobilize-in-a-box/git && cd /opt/mobilize-in-a-box/git
