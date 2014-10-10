@@ -28,6 +28,7 @@ done < /opt/mobilize-in-a-box/required_git_repos
 #misc other packages we need. dokuwiki for a lightweight wiki
 wget -P /opt/mobilize-in-a-box/ http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
 tar zxf /opt/mobilize-in-a-box/dokuwiki-stable.tgz -C /opt/mobilize-in-a-box/
+rm /opt/mobilize-in-a-box/dokuwiki-stable.tgz
 
 #######compile the server#######
 cd /opt/mobilize-in-a-box/git/ohmageServer
@@ -38,14 +39,16 @@ cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
 #######prepare the db.########
 echo "======= MySQL Root PW required to create 'ohmage' user ======"
-mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "\&\!sickly"; flush privileges;'
+mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "OhmageDBpw111"; flush privileges;'
 #remove the create database lines in the first file. who put these there?!
 sed -i '1,5d' /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
-mysql -uohmage -p\&\!sickly ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl
-mysql -uohmage -p\&\!sickly ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
+#generate db pw
+dbpw=`date | md5sum | head -c20`
+mysql -uohmage -p$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
+mysql -uohmage -p$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
 for i in `ls -1d /opt/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
  do
- mysql -uohmage -p\&\!sickly ohmage < $i
+ mysql -uohmage -p$dbpw ohmage < $i
 done
 
 #compile the gwt frontend
@@ -68,3 +71,6 @@ cp -r /opt/mobilize-in-a-box/dokuwiki*; mv /var/www/dokuwiki*/ /var/www/wiki
 cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
 chown -R www-data.www-data /var/www
 
+#we're done!
+echo "Looks like everything is set up. For your records: "
+echo "mysql user ohmage has a password now set to: "+$dbpw
