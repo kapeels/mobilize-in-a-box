@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 #we'll use git alot, so we need that, certainly
-apt-get install git -y
+apt-get -y install git < "/dev/null"
 
 #now that that's done, clone the mobilize-in-a-box repo
 git clone https://github.com/stevenolen/mobilize-in-a-box /opt/mobilize-in-a-box
