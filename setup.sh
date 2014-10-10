@@ -39,16 +39,16 @@ cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
 #######prepare the db.########
 echo "======= MySQL Root PW required to create 'ohmage' user ======"
-mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "OhmageDBpw111"; flush privileges;'
+mysql -uroot -p -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "'$dbpw'"; flush privileges;'
 #remove the create database lines in the first file. who put these there?!
 sed -i '1,5d' /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
 #generate db pw
 dbpw=`date | md5sum | head -c20`
-mysql -uohmage -p$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
-mysql -uohmage -p$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
+mysql -uohmage --password=$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
+mysql -uohmage --password=$dbpw ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
 for i in `ls -1d /opt/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
  do
- mysql -uohmage -p$dbpw ohmage < $i
+ mysql -uohmage --password=$dbpw ohmage < $i
 done
 
 #compile the gwt frontend
