@@ -84,7 +84,7 @@ cp /opt/mobilize-in-a-box/files/ohmage /etc/ohmage.conf
 #replace config based on our known items!
 sed -i "s/db.password={DB_PASSWORD_HERE}/db.password=$dbpw/g" /etc/ohmage.conf
 #set tomcat to use ipv4 on startup
-echo 'JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses' >> /usr/share/tomcat7/bin/setenv.sh
+echo 'JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses"' >> /usr/share/tomcat7/bin/setenv.sh
 
 #we're done!
 echo "Looks like everything is set up. For your records: "
