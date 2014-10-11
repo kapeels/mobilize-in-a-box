@@ -40,12 +40,14 @@ cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
 #######prepare the db.########
 dbpw=`date | md5sum | head -c20`
-#mysql -uroot -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"locahost" identified by "'$dbpw'"; flush privileges;'
-mysql -uroot ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
-mysql -uroot ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
+mysql -uroot -e 'create database ohmage; grant all on ohmage.* to "ohmage"@"localhost" identified by "'$dbpw'"; flush privileges;'
+#remove the create database lines in the first file. who put these there?!
+sed -i '1,5d' /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
+mysql -uohmage --password="$dbpw" ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/base/ohmage-ddl.sql
+mysql -uohmage --password="$dbpw" ohmage < /opt/mobilize-in-a-box/git/ohmageServer/db/sql/preferences/default_preferences.sql
 for i in `ls -1d /opt/mobilize-in-a-box/git/ohmageServer/db/sql/settings/*`
  do
- mysql -uroot ohmage < $i
+ mysql -uohmage --password="$dbpw" ohmage < $i
 done
 
 #compile the gwt frontend
@@ -64,10 +66,10 @@ cp -r /opt/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /va
 cp -r /opt/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
 cp -r /opt/mobilize-in-a-box/git/teacher /var/www/webapps/
 cp -r /opt/mobilize-in-a-box/git/navbar/ /var/www
-cp -r /opt/mobilize-in-a-box/dokuwiki*; mv /var/www/dokuwiki*/ /var/www/wiki
-cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
+#cp -r /opt/mobilize-in-a-box/dokuwiki*; mv /var/www/dokuwiki*/ /var/www/wiki
+#cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
 chown -R www-data.www-data /var/www
 
 #we're done!
 echo "Looks like everything is set up. For your records: "
-echo "mysql user ohmage has a password now set to: "+$dbpw
+echo "mysql user ohmage has a password now set to: "$dbpw
