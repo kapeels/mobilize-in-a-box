@@ -73,8 +73,8 @@ cp -r /opt/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /va
 cp -r /opt/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
 cp -r /opt/mobilize-in-a-box/git/teacher /var/www/webapps/
 cp -r /opt/mobilize-in-a-box/git/navbar/ /var/www
-#cp -r /opt/mobilize-in-a-box/dokuwiki*; mv /var/www/dokuwiki*/ /var/www/wiki
-#cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
+cp -r /opt/mobilize-in-a-box/dokuwiki* /var/www; mv /var/www/dokuwiki*/ /var/www/wiki
+cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
 chown -R www-data.www-data /var/www
 
 #copy our config files into place
