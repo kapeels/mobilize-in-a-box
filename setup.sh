@@ -13,7 +13,7 @@ git clone https://github.com/stevenolen/mobilize-in-a-box /opt/mobilize-in-a-box
 cd /opt/mobilize-in-a-box
 
 #need to add a few ppas for mariadb and nginx
-apt-get install -y python-software-properties
+apt-get install -y python-software-properties  < "/dev/null"
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main'
 add-apt-repository -y ppa:nginx/stable
