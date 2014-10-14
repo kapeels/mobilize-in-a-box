@@ -8,7 +8,7 @@ fi
 #need to add a few ppas for mariadb and nginx
 apt-get install -y python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-add-apt-repository -y 'deb http://mirror.jmu.edu/pub/mariadb/repo/5.5/ubuntu precise main'
+add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main'
 add-apt-repository -y ppa:nginx/stable
 apt-get update
 
