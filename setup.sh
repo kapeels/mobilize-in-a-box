@@ -5,6 +5,13 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
+#we'll use git alot, so we need that, certainly
+apt-get -y install git < "/dev/null"
+
+#now that that's done, clone the mobilize-in-a-box repo
+git clone https://github.com/stevenolen/mobilize-in-a-box /opt/mobilize-in-a-box
+cd /opt/mobilize-in-a-box
+
 #need to add a few ppas for mariadb and nginx
 apt-get install -y python-software-properties
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
@@ -72,14 +79,16 @@ cp -r * /var/www/webapps/web
 cp -r /opt/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /var/www/webapps/campaignAuthoringTool /var/www/webapps/authoring
 cp -r /opt/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
 cp -r /opt/mobilize-in-a-box/git/teacher /var/www/webapps/
-cp -r /opt/mobilize-in-a-box/git/navbar/ /var/www
+cp -r /opt/mobilize-in-a-box/git/navbar/* /var/www
 cp -r /opt/mobilize-in-a-box/dokuwiki* /var/www; mv /var/www/dokuwiki*/ /var/www/wiki
 cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
 chown -R www-data.www-data /var/www
 
 #copy our config files into place
 cp /opt/mobilize-in-a-box/files/ohmage /etc/ohmage.conf
-#TODO: copy nginx config and figure out what to do here
+cp /opt/mobilize-in-a-box/files/nginx /etc/nginx/sites-available/ohmage
+ln -s /etc/nginx/sites-available/ohmage /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
 
 #replace config based on our known items!
 sed -i "s/db.password={DB_PASSWORD_HERE}/db.password=$dbpw/g" /etc/ohmage.conf
@@ -89,3 +98,7 @@ echo 'JAVA_OPTS="$JAVA_OPTS -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv
 #we're done!
 echo "Looks like everything is set up. For your records: "
 echo "mysql user ohmage has a password now set to: "$dbpw
+
+######## start up some stuff ########
+service nginx restart
+service tomcat7 start
