@@ -6,7 +6,7 @@ The goal of the mobilize-in-a-box project will be to easily replicate the entire
 ##GETTING STARTED
 Please read the CONFIG section below..but once you have, feel free to begin bootstrapping by executing this command as root. It will git clone this repo so we can get started!
 ```
-curl -s https://raw.githubusercontent.com/stevenolen/mobilize-in-a-box/master/setup.sh | bash
+curl -s https://raw.githubusercontent.com/stevenolen/mobilize-in-a-box/master/bootstrap.sh | bash
 ```
 
 ##CONFIG

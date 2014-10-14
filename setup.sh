@@ -5,13 +5,6 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 
-#we'll use git alot, so we need that, certainly
-apt-get -y install git < "/dev/null"
-
-#now that that's done, clone the mobilize-in-a-box repo
-git clone https://github.com/stevenolen/mobilize-in-a-box /opt/mobilize-in-a-box
-cd /opt/mobilize-in-a-box
-
 #need to add a few ppas for mariadb and nginx
 apt-get install -y python-software-properties  < "/dev/null"
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
