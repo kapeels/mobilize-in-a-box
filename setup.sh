@@ -115,7 +115,7 @@ rm /etc/nginx/sites-enabled/default
 #we installed ocpu, which needs to use apache
 rm /etc/apache2/sites-enabled/000-default.conf
 rm /etc/apache2/sites-enabled/default-ssl.conf
-rm /etc/apache2/ports.conf
+sed -i '/Listen 80/#Listen 80/g' /etc/apache2/ports.conf
 
 #install plotbuilder and dependencies
 echo "################## Compiling: R package dependencies for plotapp  ##################"
