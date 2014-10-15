@@ -69,6 +69,15 @@ jar xvf ../MobilizeWeb.war
 mkdir -p /var/www/webapps/web
 cp -r * /var/www/webapps/web
 
+#compile the generalized dashboard
+cd /opt/mobilize-in-a-box/git/dashboard
+#installing nodejs from debian is kinda crap
+ln -s /usr/bin/nodejs /usr/bin/node
+export PATH=$PATH:/usr/local/share/npm/bin/
+npm -g install jade recess uglify-js
+make CAMPAIGN=snack OUT=/var/www/webapps/publicdashboard
+make CAMPAIGN=snack OUT=/var/www/webapps/dashboard
+
 #move the other www code to it's rightful location
 cp -r /opt/mobilize-in-a-box/git/campaignAuthoringTool /var/www/webapps/; mv /var/www/webapps/campaignAuthoringTool /var/www/webapps/authoring
 cp -r /opt/mobilize-in-a-box/git/campaign_monitor /var/www/webapps/; mv /var/www/webapps/campaign_monitor /var/www/webapps/monitor
