@@ -9,22 +9,22 @@ fi
 echo "################## Installing: python-software-properties  ##################" 
 apt-get install -y python-software-properties  < "/dev/null" &>> /opt/mobilize-in-a-box/run.log
 echo "################## Installing: mariadb 10.0 ppa  ##################" 
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db &> /opt/mobilize-in-a-box/run.log
-add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' &> /opt/mobilize-in-a-box/run.log
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db &>> /opt/mobilize-in-a-box/run.log
+add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' &>> /opt/mobilize-in-a-box/run.log
 echo "################## Installing: opencpu ppa  ##################" 
-add-apt-repository -y ppa:opencpu/opencpu-1.4 &> /opt/mobilize-in-a-box/run.log
+add-apt-repository -y ppa:opencpu/opencpu-1.4 &>> /opt/mobilize-in-a-box/run.log
 echo "################## Installing: nginx ppa  ##################" 
-add-apt-repository -y ppa:nginx/stable &> /opt/mobilize-in-a-box/run.log
+add-apt-repository -y ppa:nginx/stable &>> /opt/mobilize-in-a-box/run.log
 echo "################## Updating apt packages  ##################" 
-apt-get update &> /opt/mobilize-in-a-box/run.log
+apt-get update &>> /opt/mobilize-in-a-box/run.log
 
 #let's install the rest of the dependencies we need from apt
 #TODO: right now we need to actually install x11 in order to get javac to compile the server/frontend..
 echo "################## Installing: openjdk-7-jdk  ##################" 
-apt-get -y install openjdk-7-jdk --no-install-recommends < "/dev/null" &> /opt/mobilize-in-a-box/run.log
+apt-get -y install openjdk-7-jdk --no-install-recommends < "/dev/null" &>> /opt/mobilize-in-a-box/run.log
 export DEBIAN_FRONTEND=noninteractive
 echo "################## Installing: $(cat required_packages)  ##################" 
-apt-get -y install $(cat required_packages) < "/dev/null" &> /opt/mobilize-in-a-box/run.log
+apt-get -y install $(cat required_packages) < "/dev/null" &>> /opt/mobilize-in-a-box/run.log
 
 #let's install the rest of the dependencies we need from apt
 mkdir -p /opt/mobilize-in-a-box/git && cd /opt/mobilize-in-a-box/git
@@ -32,21 +32,21 @@ while read line
 do
   repo=$line
   echo "################## Git clone: $repo  ##################"
-  git clone $repo &> /opt/mobilize-in-a-box/run.log &> /opt/mobilize-in-a-box/run.log
+  git clone $repo &>> /opt/mobilize-in-a-box/run.log
 done < /opt/mobilize-in-a-box/required_git_repos
 
 #misc other packages we need. dokuwiki for a lightweight wiki
 echo "################## Installing: dokuwiki  ##################"
-wget -P /opt/mobilize-in-a-box/ http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz &> /opt/mobilize-in-a-box/run.log
-tar zxf /opt/mobilize-in-a-box/dokuwiki-stable.tgz -C /opt/mobilize-in-a-box/ &> /opt/mobilize-in-a-box/run.log
+wget -P /opt/mobilize-in-a-box/ http://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz &>> /opt/mobilize-in-a-box/run.log
+tar zxf /opt/mobilize-in-a-box/dokuwiki-stable.tgz -C /opt/mobilize-in-a-box/ &>> /opt/mobilize-in-a-box/run.log
 rm /opt/mobilize-in-a-box/dokuwiki-stable.tgz
 
 #######compile the server#######
 echo "################## Compiling: ohmageServer  ##################"
 cd /opt/mobilize-in-a-box/git/ohmageServer
-git checkout ohmage-2.16-user_setup_password &> /opt/mobilize-in-a-box/run.log
-ant clean dist &> /opt/mobilize-in-a-box/run.log
-service tomcat7 stop &> /opt/mobilize-in-a-box/run.log
+git checkout ohmage-2.16-user_setup_password &>> /opt/mobilize-in-a-box/run.log
+ant clean dist &>> /opt/mobilize-in-a-box/run.log
+service tomcat7 stop &>> /opt/mobilize-in-a-box/run.log
 cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
 #we also need some directories for ohmage to store data
@@ -73,12 +73,12 @@ mysql -uohmage --password="$dbpw" ohmage -e 'update preference set p_value = rep
 #compile the gwt frontend
 echo "################## Compiling: ohmage gwt-frontend  ##################"
 cd /opt/mobilize-in-a-box/git/gwt-front-end
-git checkout mobilize &> /opt/mobilize-in-a-box/run.log
-ant clean build buildwar &> /opt/mobilize-in-a-box/run.log
+git checkout mobilize &>> /opt/mobilize-in-a-box/run.log
+ant clean build buildwar &>> /opt/mobilize-in-a-box/run.log
 rm -rf /opt/mobilize-in-a-box/git/gwt-front-end/extracted/
 mkdir /opt/mobilize-in-a-box/git/gwt-front-end/extracted/
 cd /opt/mobilize-in-a-box/git/gwt-front-end/extracted/
-jar xvf ../MobilizeWeb.war &> /opt/mobilize-in-a-box/run.log
+jar xvf ../MobilizeWeb.war &>> /opt/mobilize-in-a-box/run.log
 mkdir -p /var/www/webapps/web
 cp -r * /var/www/webapps/web
 
@@ -89,11 +89,11 @@ cd /opt/mobilize-in-a-box/git/dashboard
 ln -s /usr/bin/nodejs /usr/bin/node
 export PATH=$PATH:/usr/local/share/npm/bin/
 #why make a package.json, let's just install them all separately.
-npm -g install jade &> /opt/mobilize-in-a-box/run.log
-npm -g install recess &> /opt/mobilize-in-a-box/run.log
-npm -g install uglify-js &> /opt/mobilize-in-a-box/run.log
-make CAMPAIGN=snack OUT=/var/www/webapps/publicdashboard &> /opt/mobilize-in-a-box/run.log
-make CAMPAIGN=snack OUT=/var/www/webapps/dashboard &> /opt/mobilize-in-a-box/run.log
+npm -g install jade &>> /opt/mobilize-in-a-box/run.log
+npm -g install recess &>> /opt/mobilize-in-a-box/run.log
+npm -g install uglify-js &>> /opt/mobilize-in-a-box/run.log
+make CAMPAIGN=snack OUT=/var/www/webapps/publicdashboard &>> /opt/mobilize-in-a-box/run.log
+make CAMPAIGN=snack OUT=/var/www/webapps/dashboard &>> /opt/mobilize-in-a-box/run.log
 
 #move the other www code to it's rightful location
 echo "################## Preparing: copying www projects to /var/www  ##################"
@@ -120,9 +120,9 @@ sed -i '/Listen 80/#Listen 80/g' /etc/apache2/ports.conf
 #install plotbuilder and dependencies
 echo "################## Compiling: R package dependencies for plotapp  ##################"
 cd /opt/mobilize-in-a-box/git/
-/usr/bin/R -e 'install.packages(c("Ohmage","ggplot2"), repos="http://cran.rstudio.com/")' &> /opt/mobilize-in-a-box/run.log
+/usr/bin/R -e 'install.packages(c("Ohmage","ggplot2"), repos="http://cran.rstudio.com/")' &>> /opt/mobilize-in-a-box/run.log
 echo "################## Installing: plotapp  ##################"
-/usr/bin/R CMD INSTALL plotbuilder --library=/usr/local/lib/R/site-library &> /opt/mobilize-in-a-box/run.log
+/usr/bin/R CMD INSTALL plotbuilder --library=/usr/local/lib/R/site-library &>> /opt/mobilize-in-a-box/run.log
 
 
 #replace config based on our known items!
@@ -136,6 +136,6 @@ echo \n\n"Looks like everything is set up. For your records: "
 echo "mysql user ohmage has a password now set to: "$dbpw
 
 ######## start up some stuff ########
-service nginx restart &> /opt/mobilize-in-a-box/run.log
-service tomcat7 start &> /opt/mobilize-in-a-box/run.log
-service apache2 restart &> /opt/mobilize-in-a-box/run.log
+service nginx restart &>> /opt/mobilize-in-a-box/run.log
+service tomcat7 start &>> /opt/mobilize-in-a-box/run.log
+service apache2 restart &>> /opt/mobilize-in-a-box/run.log
