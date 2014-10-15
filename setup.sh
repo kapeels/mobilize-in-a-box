@@ -103,7 +103,10 @@ cp -r /opt/mobilize-in-a-box/git/teacher /var/www/webapps/
 cp -r /opt/mobilize-in-a-box/git/navbar/* /var/www
 cp -r /opt/mobilize-in-a-box/dokuwiki* /var/www; mv /var/www/dokuwiki*/ /var/www/wiki
 cp -ur /opt/mobilize-in-a-box/git/wiki/* /var/www/wiki/data/
+#support navbar backwards compatability.
+ln -s /var/www/webapps /var/www/navbar
 chown -R www-data.www-data /var/www
+
 
 #copy our config files into place
 echo "################## Preparing: copying ohmage and nginx conf files  ##################"
@@ -115,7 +118,8 @@ rm /etc/nginx/sites-enabled/default
 #we installed ocpu, which needs to use apache
 rm /etc/apache2/sites-enabled/000-default.conf
 rm /etc/apache2/sites-enabled/default-ssl.conf
-sed -i '/Listen 80/#Listen 80/g' /etc/apache2/ports.conf
+sed -i 's/^/#/g' /etc/apache2/ports.conf
+service apache2 stop &>> /opt/mobilize-in-a-box/run.log
 
 #install plotbuilder and dependencies
 echo "################## Compiling: R package dependencies for plotapp  ##################"
