@@ -5,3 +5,4 @@ mariadb-server
 nginx
 php5-fpm
 ssl-cert
+opencpu-server

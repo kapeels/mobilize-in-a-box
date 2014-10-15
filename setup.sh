@@ -9,6 +9,7 @@ fi
 apt-get install -y python-software-properties  < "/dev/null"
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
 add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main'
+add-apt-repository -y ppa:opencpu/opencpu-1.4
 add-apt-repository -y ppa:nginx/stable
 apt-get update
 
@@ -82,6 +83,11 @@ cp /opt/mobilize-in-a-box/files/ohmage /etc/ohmage.conf
 cp /opt/mobilize-in-a-box/files/nginx /etc/nginx/sites-available/ohmage
 ln -s /etc/nginx/sites-available/ohmage /etc/nginx/sites-enabled/
 rm /etc/nginx/sites-enabled/default
+
+#we installed ocpu, which needs to use apache
+rm /etc/apache2/sites-enabled/000-default.conf
+rm /etc/apache2/sites-enabled/default-ssl.conf
+rm /etc/apache2/ports.conf
 
 #replace config based on our known items!
 sed -i "s/db.password={DB_PASSWORD_HERE}/db.password=$dbpw/g" /etc/ohmage.conf
