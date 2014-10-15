@@ -42,7 +42,10 @@ server {
           proxy_pass http://localhost:8004/ocpu;
         }
         location /navbar/plotapp {
-          #proxy_pass http://{ocpu_server_here}/ocpu/github/jeroenooms/plotbuilder/www;
+          proxy_pass http://localhost:8004/ocpu/library/plotbuilder/www;
+        }
+        location /webapps/plotapp {
+          proxy_pass http://localhost:8004/ocpu/library/plotbuilder/www;
         }
 
         #support basic wiki.
