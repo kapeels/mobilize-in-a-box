@@ -88,7 +88,10 @@ cd /opt/mobilize-in-a-box/git/dashboard
 #installing nodejs from debian is kinda crap
 ln -s /usr/bin/nodejs /usr/bin/node
 export PATH=$PATH:/usr/local/share/npm/bin/
-npm -g install jade recess uglify-js &> /opt/mobilize-in-a-box/run.log
+#why make a package.json, let's just install them all separately.
+npm -g install jade &> /opt/mobilize-in-a-box/run.log
+npm -g install recess &> /opt/mobilize-in-a-box/run.log
+npm -g install uglify-js &> /opt/mobilize-in-a-box/run.log
 make CAMPAIGN=snack OUT=/var/www/webapps/publicdashboard &> /opt/mobilize-in-a-box/run.log
 make CAMPAIGN=snack OUT=/var/www/webapps/dashboard &> /opt/mobilize-in-a-box/run.log
 
