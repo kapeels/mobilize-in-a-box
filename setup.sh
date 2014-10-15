@@ -6,25 +6,25 @@ if [ "$EUID" -ne 0 ]
 fi
 
 #need to add a few ppas for mariadb and nginx
-apt-get install -y python-software-properties  < "/dev/null"
-apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main'
-add-apt-repository -y ppa:opencpu/opencpu-1.4
-add-apt-repository -y ppa:nginx/stable
-apt-get update
+apt-get install -y python-software-properties  < "/dev/null" &>> /opt/mobilize-in-a-box/run.log
+apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db &> /opt/mobilize-in-a-box/run.log
+add-apt-repository 'deb http://sfo1.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main' &> /opt/mobilize-in-a-box/run.log
+add-apt-repository -y ppa:opencpu/opencpu-1.4 &> /opt/mobilize-in-a-box/run.log
+add-apt-repository -y ppa:nginx/stable &> /opt/mobilize-in-a-box/run.log
+apt-get update &> /opt/mobilize-in-a-box/run.log
 
 #let's install the rest of the dependencies we need from apt
 #TODO: right now we need to actually install x11 in order to get javac to compile the server/frontend..
-apt-get -y install openjdk-7-jdk --no-install-recommends < "/dev/null"
+apt-get -y install openjdk-7-jdk --no-install-recommends < "/dev/null" &> /opt/mobilize-in-a-box/run.log
 export DEBIAN_FRONTEND=noninteractive
-apt-get -y install $(cat required_packages) < "/dev/null"
+apt-get -y install $(cat required_packages) < "/dev/null" &> /opt/mobilize-in-a-box/run.log
 
 #let's install the rest of the dependencies we need from apt
 mkdir -p /opt/mobilize-in-a-box/git && cd /opt/mobilize-in-a-box/git
 while read line
 do
   repo=$line
-  git clone $repo
+  git clone $repo &> /opt/mobilize-in-a-box/run.log
 done < /opt/mobilize-in-a-box/required_git_repos
 
 #misc other packages we need. dokuwiki for a lightweight wiki
@@ -35,7 +35,7 @@ rm /opt/mobilize-in-a-box/dokuwiki-stable.tgz
 #######compile the server#######
 cd /opt/mobilize-in-a-box/git/ohmageServer
 git checkout ohmage-2.16-user_setup_password
-ant clean dist
+ant clean dist &> /opt/mobilize-in-a-box/run.log
 service tomcat7 stop
 cp dist/webapp-ohmage-2.16.1-no_ssl.war /var/lib/tomcat7/webapps/app.war
 
