@@ -114,6 +114,14 @@ rm /etc/apache2/sites-enabled/000-default.conf
 rm /etc/apache2/sites-enabled/default-ssl.conf
 rm /etc/apache2/ports.conf
 
+#install plotbuilder and dependencies
+echo "################## Compiling: R package dependencies for plotapp  ##################"
+cd /opt/mobilize-in-a-box/git/
+/usr/bin/R -e 'install.packages(c("Ohmage","ggplot2"), repos="http://cran.rstudio.com/")' &> /opt/mobilize-in-a-box/run.log
+echo "################## Installing: plotapp  ##################"
+/usr/bin/R CMD INSTALL plotbuilder --library=/usr/local/lib/R/site-library &> /opt/mobilize-in-a-box/run.log
+
+
 #replace config based on our known items!
 sed -i "s/db.password={DB_PASSWORD_HERE}/db.password=$dbpw/g" /etc/ohmage.conf
 #set tomcat to use ipv4 on startup
