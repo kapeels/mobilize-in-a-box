@@ -88,3 +88,4 @@ Much of the help for teachers and students comes from our wiki. You need only [d
     * RStudio: 2-4 cores, 2-4GB ram
     * opencpu: negligible for mobilize needs
     * wiki: negligible for mobilize needs
+  * some of these packages expect a mail server to be available on `localhost:25`. you may want to `apt-get install postfix` to resolve that!
