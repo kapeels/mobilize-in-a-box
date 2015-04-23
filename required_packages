@@ -1,9 +1,0 @@
-build-essential
-ant
-tomcat7
-mariadb-server
-nginx
-php5-fpm
-ssl-cert
-opencpu-server
-npm
