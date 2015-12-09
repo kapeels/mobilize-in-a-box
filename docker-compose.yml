@@ -3,6 +3,7 @@ nginx:
   image: mobilizingcs/nginx
   links:
   - ohmage:ohmage
+  - wiki:wiki
   ports:
   - "80:80"
 
@@ -11,6 +12,10 @@ ohmage:
   image: ohmage/base
   links:
   - mysql:mysql
+
+wiki:
+  restart: unless-stopped
+  image: mobilizingcs/wiki
 
 mysql:
   restart: unless-stopped
