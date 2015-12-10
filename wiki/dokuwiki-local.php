@@ -15,3 +15,6 @@ $conf['tpl']['vector']['vector_copyright_default'] = 0;
 $conf['tpl']['vector']['vector_loaduserjs'] = 1;
 $conf['datadir'] = './data/git/pages';
 $conf['mediadir'] = './data/git/media';
+# we plan to reverse proxy from the mobilizingcs/nginx container
+# so that the wiki can be used from within the navbar setup.
+$conf['basedir'] = '/navbar/wiki/';

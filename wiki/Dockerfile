@@ -20,6 +20,9 @@ ADD nginx.conf /etc/nginx/conf.d/default.conf
 ADD php-pool-www.conf /etc/php5/fpm/pool.d/www.conf
 ADD dokuwiki-local.php /var/www/conf/local.php
 
+# copies mobilize logo to vector template 
+RUN cp /var/www/data/git/media/wiki/logo.png /var/www/lib/tpl/vector/user/
+
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
 
