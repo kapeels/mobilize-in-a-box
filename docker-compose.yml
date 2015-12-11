@@ -4,6 +4,7 @@ nginx:
   links:
   - ohmage:ohmage
   - wiki:wiki
+  - ocpu:ocpu
   ports:
   - "80:80"
 
@@ -16,6 +17,10 @@ ohmage:
 wiki:
   restart: unless-stopped
   image: mobilizingcs/wiki
+
+ocpu:
+  restart: unless-stopped
+  image: mobilizingcs/ocpu
 
 mysql:
   restart: unless-stopped
