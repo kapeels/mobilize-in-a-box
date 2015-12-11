@@ -9,11 +9,11 @@ RUN set -x \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN git clone --single-branch https://github.com/mobilizingcs/mobilizr /tmp/MobilizR
+RUN git clone --single-branch https://github.com/mobilizingcs/plotapp /tmp/plotbuilder
 
-RUN /usr/bin/R -e 'install.packages(c('plyr', 'dplyr', 'mosaic', 'ggplot2', 'curl', 'rstudioapi', 'log4r'), repo = "https://cran.rstudio.com")'
+RUN /usr/bin/R -e 'install.packages(c("Ohmage", "ggplot2", "curl", "rstudioapi"), repo = "https://cran.rstudio.com")'
 WORKDIR /tmp
-RUN /usr/bin/R CMD INSTALL MobilizR --library=/usr/local/lib/R/site-library
+RUN /usr/bin/R CMD INSTALL plotbuilder --library=/usr/local/lib/R/site-library
  
 EXPOSE 80
 
