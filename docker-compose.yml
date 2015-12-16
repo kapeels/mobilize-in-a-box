@@ -5,6 +5,7 @@ nginx:
   - ohmage:ohmage
   - wiki:wiki
   - ocpu:ocpu
+  - rstudio:rstudio
   ports:
   - "80:80"
 
@@ -21,6 +22,10 @@ wiki:
 ocpu:
   restart: unless-stopped
   image: mobilizingcs/ocpu
+
+rstudio:
+  restart: unless-stopped
+  image: mobilizingcs/rstudio
 
 mysql:
   restart: unless-stopped
