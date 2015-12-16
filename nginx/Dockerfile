@@ -9,7 +9,8 @@ RUN set -x \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # nginx container contains all of the static frontends ohmage uses.
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/navbar /var/www
+RUN git clone -b master --single-branch https://github.com/mobilizingcs/navbar /var/www \
+    && sed -i 's/config = ohmageConfig.initialize();/config = mobilizeInABoxConfig/g' /var/www/config.js
 RUN mkdir /var/www/webapps && ln -s /var/www/webapps /var/www/navbar
 
 WORKDIR /var/www/webapps
