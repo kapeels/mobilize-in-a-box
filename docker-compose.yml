@@ -6,12 +6,15 @@ nginx:
   - wiki:wiki
   - ocpu:ocpu
   - rstudio:rstudio
+  - pw:pw
   ports:
   - "80:80"
 
 ohmage:
   restart: unless-stopped
   image: ohmage/base
+  volumes:
+  - .data/ohmage:/var/lib/mysql
   links:
   - mysql:mysql
 
@@ -30,5 +33,11 @@ rstudio:
 mysql:
   restart: unless-stopped
   image: mysql:5.6.27
+  volumes:
+  - .data/mysql:/var/lib/mysql
   environment:
   - MYSQL_ROOT_PASSWORD=setmebetter
+
+pw:
+  restart: unless-stopped
+  image: stevenolen/pw
