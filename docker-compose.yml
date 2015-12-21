@@ -7,6 +7,8 @@ nginx:
   - ocpu:ocpu
   - rstudio:rstudio
   - pw:pw
+  volumes_from:
+    - ohmagex
   ports:
   - "80:80"
 
@@ -41,3 +43,7 @@ mysql:
 pw:
   restart: unless-stopped
   image: stevenolen/pw
+
+ohmagex:
+  image: mobilizingcs/ohmagex
+  entrypoint: /bin/echo 'ohmagex compiled resources container'
