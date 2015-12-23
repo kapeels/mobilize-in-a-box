@@ -16,7 +16,7 @@ ohmage:
   restart: unless-stopped
   image: ohmage/base
   volumes:
-  - .data/ohmage:/var/lib/mysql
+  - .data/ohmage:/var/lib/ohmage
   links:
   - mysql:mysql
 
@@ -47,3 +47,7 @@ pw:
 ohmagex:
   image: mobilizingcs/ohmagex
   entrypoint: /bin/echo 'ohmagex compiled resources container'
+
+dashboard:
+  image: mobilizingcs/dashboard
+  entrypoint: /bin/echo 'dashboard compiled resources container'
