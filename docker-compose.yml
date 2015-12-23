@@ -32,6 +32,11 @@ ocpu:
 rstudio:
   restart: unless-stopped
   image: mobilizingcs/rstudio
+  volumes:
+  - .data/rstudio/home:/home
+  - .data/rstudio/sync:/sync
+  links:
+  - mysql:mysql
 
 mysql:
   restart: unless-stopped
