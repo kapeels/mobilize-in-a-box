@@ -8,7 +8,8 @@ nginx:
   - rstudio:rstudio
   - pw:pw
   volumes_from:
-    - ohmagex
+  - ohmagex
+  - dashboard
   ports:
   - "80:80"
 
