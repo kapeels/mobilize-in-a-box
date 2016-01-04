@@ -7,7 +7,7 @@ require 'daybreak'
 mysql_host = 'mysql'
 mysql_user = 'root'
 mysql_password = ENV['MYSQL_ENV_MYSQL_ROOT_PASSWORD']
-mysql_db = 'ohmage'
+mysql_db = ARGV[0]
 # all users from this query will be created. remove usernames that don't conform to unix standards.
 mysql_user_query = 'select distinct user.username,user.password from user where username not like "%.%"'
 
@@ -49,6 +49,4 @@ rescue Exception => e # nice error handling, man.
   p "#{Time.now.asctime()}: Sync Error, password sync potentially failed: #{e}"
 end
 
-if new_users.any? or changed_users.any?
-  p "#{Time.now.asctime()}: Sync Finished. New Users(#{new_users.count}), Updated Passwords(#{changed_users.count})"
-end
+p "#{Time.now.asctime()}: Sync Finished. New Users(#{new_users.count}), Updated Passwords(#{changed_users.count})"

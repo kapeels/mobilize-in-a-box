@@ -9,7 +9,7 @@ RUN set -x \
     && echo 'deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/' >> /etc/apt/sources.list \
     && apt-key adv --keyserver keys.gnupg.net --recv-key 381BA480 \
     && apt-get update \
-    && apt-get install -y r-base gdebi git curl libcurl4-openssl-dev ed cron libmysqlclient-dev ruby ruby-dev cron libxcrypt1 \
+    && apt-get install -y r-base gdebi git curl libcurl4-openssl-dev ed cron libmysqlclient-dev ruby ruby-dev netcat libxcrypt1 \
     && curl -fSL http://download2.rstudio.org/rstudio-server-${RSTUDIO_VERSION}-amd64.deb -o /tmp/rstudio-server.deb \
     && curl -fSL http://http.us.debian.org/debian/pool/main/libp/libpam-unix2/libpam-unix2_2.4.1-6_amd64.deb -o /tmp/libpam-unix2.deb \
     && gdebi -n /tmp/rstudio-server.deb \
@@ -37,5 +37,6 @@ ADD sync.rb /sync.rb
 VOLUME /home
 VOLUME /sync 
 EXPOSE 8787
+STOPSIGNAL SIGTERM
 
-CMD ["/usr/lib/rstudio-server/bin/rserver", "--server-daemonize", "0"]
+CMD ["/run.sh"]
