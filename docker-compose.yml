@@ -34,13 +34,15 @@ rstudio:
   image: mobilizingcs/rstudio
   volumes:
   - .data/rstudio/home:/home
-  - .data/rstudio/sync:/sync
   links:
   - mysql:mysql
+  environment:
+  - SYNC=1
 
 mysql:
   restart: unless-stopped
   image: mysql:5.6.27
+  # comment out volumes if testing on osx. mysql/docker/osx permissions issue.
   volumes:
   - .data/mysql:/var/lib/mysql
   environment:
