@@ -37,6 +37,5 @@ ADD sync.rb /sync.rb
 VOLUME /home
 VOLUME /sync 
 EXPOSE 8787
-STOPSIGNAL SIGTERM
 
 CMD ["/run.sh"]
