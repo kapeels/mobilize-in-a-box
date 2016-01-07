@@ -18,7 +18,7 @@ Execute `docker-compose up -d` to create the instances as default (or edit `dock
   * If you'd like to sync the accounts from ohmage to rstudio (yes, we realize this is quite quirky!) ensure that the rstudio container has the environment variable `SYNC` set to `1` (set to `0` to turn off).  You can also customize the sync frequency with `SYNC_SECONDS` environment variable, which defaults to `120`.
 
 ## VAGRANT
-TODO: a vagrant box which sets up docker-compose and runs as above. 
+`git clone` this repository and run `vagrant up` (you may want to up the ram a bit). The result should be a vagrant box running at `192.168.33.100` that is configured just as the docker-compose option above!
 
 
 ## MANUAL/LEGACY INSTALL
