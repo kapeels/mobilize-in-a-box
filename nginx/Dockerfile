@@ -11,19 +11,10 @@ RUN set -x \
 # nginx container contains all of the static frontends ohmage uses.
 RUN git clone -b master --single-branch https://github.com/mobilizingcs/navbar /var/www \
     && sed -i 's/config = ohmageConfig.initialize();/config = mobilizeInABoxConfig/g' /var/www/config.js
-RUN mkdir /var/www/webapps && ln -s /var/www/webapps /var/www/navbar
-
-WORKDIR /var/www/webapps
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/campaigns
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/classes
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/documents
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/author
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/admin
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/responses
-RUN git clone -b master --single-branch https://github.com/mobilizingcs/monitor
+RUN ln -s /ohmage-frontends /var/www/webapps \
+  && ln -s /var/www/webapps /var/www/navbar
  
 EXPOSE 80
-
 
 ADD nginx.conf /etc/nginx/conf.d/default.conf
 RUN chown -R nginx.nginx /var/www

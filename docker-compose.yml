@@ -10,6 +10,7 @@ nginx:
   volumes_from:
   - ohmagex
   - dashboard
+  - author
   ports:
   - "80:80"
 
@@ -52,10 +53,39 @@ pw:
   restart: unless-stopped
   image: stevenolen/pw
 
+# ohmage frontend volume-only containers.
 ohmagex:
   image: mobilizingcs/ohmagex
-  entrypoint: /bin/echo 'ohmagex compiled resources container'
+  entrypoint: /bin/true
 
 dashboard:
   image: mobilizingcs/dashboard
-  entrypoint: /bin/echo 'dashboard compiled resources container'
+  entrypoint: /bin/true
+
+admin:
+  image: mobilizingcs/admin
+  entrypoint: /true
+
+author:
+  image: mobilizingcs/author
+  entrypoint: /true
+
+campaigns:
+  image: mobilizingcs/campaigns
+  entrypoint: /true
+
+classes:
+  image: mobilizingcs/classes
+  entrypoint: /true
+
+documents:
+  image: mobilizingcs/documents
+  entrypoint: /true
+
+monitor:
+  image: mobilizingcs/monitor
+  entrypoint: /true
+
+responses:
+  image: mobilizingcs/responses
+  entrypoint: /true
