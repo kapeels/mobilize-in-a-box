@@ -29,6 +29,7 @@ RUN /usr/bin/R CMD INSTALL MobilizR --library=/usr/local/lib/R/site-library
 # set pam to use blowfish to support the ohmage sync script. 
 RUN sed -i 's/pam_unix.so/pam_unix2.so/g' /etc/pam.d/common-*
 RUN sed -i 's/obscure sha512/obscure blowfish/g' /etc/pam.d/common-password 
+RUN echo 'suppressPackageStartupMessages(library(mobilizr, warn.conflicts=FALSE, quietly=TRUE))' > /etc/R/Rprofile.site
 
 ADD run.sh /run.sh
 RUN chmod +x /run.sh

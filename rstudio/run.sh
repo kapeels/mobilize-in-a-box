@@ -15,6 +15,7 @@ do
     sleep 1
   done
   echo "done."
+  rm -f /tmp/account_sync.db
   /usr/bin/ruby /sync.rb $DB_NAME
   sleep $SYNC_SECONDS
 done
