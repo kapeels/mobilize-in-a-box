@@ -2,7 +2,6 @@ FROM alpine:3.2
 MAINTAINER technolengy@gmail.com
 
 ENV NODE_PATH /usr/lib/node_modules
-ENV STATIC_VOLUME /var/www/survey
 
 RUN apk --update add --virtual build-deps build-base ruby-dev nodejs git \
   && gem install bundler --no-ri --no-rdoc \
@@ -11,10 +10,10 @@ RUN apk --update add --virtual build-deps build-base ruby-dev nodejs git \
   && bundle install \
   && npm install \
   && npm install -g bower \
-  && node_modules/grunt-cli/bin/grunt webblocks_build \
-  && node_modules/grunt-cli/bin/grunt dev \
-  && mkdir -p /var/www/webapps/survey \
-  && mv /tmp/ohmageX/www/* /var/www/webapps/survey \
+  && node_modules/grunt-cli/bin/grunt webblocks_build --deployment=mobilize \
+  && node_modules/grunt-cli/bin/grunt dev --deployment=mobilize \
+  && mkdir -p /ohmage-frontends/survey \
+  && mv /tmp/ohmageX/www/* /ohmage-frontends/survey \
   && apk del build-deps && rm -rf /tmp/* /usr/lib/node*
 
-VOLUME /var/www/webapps/survey
+VOLUME /ohmage-frontends/survey
