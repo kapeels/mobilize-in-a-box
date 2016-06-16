@@ -1,97 +1,117 @@
-nginx:
-  restart: unless-stopped
-  image: mobilizingcs/nginx
-  links:
-  - ohmage:ohmage
-  - wiki:wiki
-  - ocpu:ocpu
-  - rstudio:rstudio
-  - pw:pw
-  volumes_from:
-  - admin
-  - author
-  - campaigns
-  - classes
-  - dashboard
-  - documents
-  - monitor
-  - ohmagex
-  - responses
-  ports:
-  - "80:80"
+version: '2'
+services:
+  nginx:
+    image: mobilizingcs/nginx
+    #build: nginx/
+    depends_on:
+      - ohmage
+      - ocpu
+      #- wiki
+      - rstudio
+      - pw
+    volumes_from:
+      - navbar
+      - admin
+      - author
+      - campaigns
+      - classes
+      - dashboard
+      - documents
+      - monitor
+      - ohmagex
+      - responses
+    ports:
+      - "80:80"
+  
+  ohmage:
+    image: ohmage/server
+    depends_on:
+      - db
+    volumes:
+      - ohmage-data:/var/lib/ohmage
+    environment:
+      - DB_HOST=db
+      - MYSQL_DATABASE=ohmage
+      - MYSQL_USER=ohmage
+      - MYSQL_PASSWORD=ohmage
 
-ohmage:
-  restart: unless-stopped
-  image: ohmage/base
-  volumes:
-  - .data/ohmage:/var/lib/ohmage
-  links:
-  - mysql:mysql
+  db:
+    image: mysql:5.6
+    volumes:
+      - ohmage-db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=setmebetter
+      - MYSQL_DATABASE=ohmage
+      - MYSQL_USER=ohmage
+      - MYSQL_PASSWORD=ohmage
 
-wiki:
-  restart: unless-stopped
-  image: mobilizingcs/wiki
+  ocpu:
+    depends_on:
+      - ohmage
+    restart: unless-stopped
+    image: mobilizingcs/ocpu
+  
+  #wiki:
+  #  restart: unless-stopped
+  #  image: mobilizingcs/wiki
+  
+  rstudio:
+    restart: unless-stopped
+    image: mobilizingcs/rstudio
+    volumes:
+      - rstudio-home:/home
+    environment:
+      - SYNC=1
+      - DB_HOST=db
+      - MYSQL_DATABASE=ohmage
+      - MYSQL_USER=ohmage
+      - MYSQL_PASSWORD=ohmage
+  
+  pw:
+    restart: unless-stopped
+    image: stevenolen/pw
+  
+  # ohmage frontend volume-only containers.
+  navbar:
+    image: mobilizingcs/navbar
 
-ocpu:
-  restart: unless-stopped
-  image: mobilizingcs/ocpu
+  ohmagex:
+    image: mobilizingcs/ohmagex
+    entrypoint: /bin/true
+  
+  dashboard:
+    image: mobilizingcs/dashboard
+    entrypoint: /bin/true
+  
+  admin:
+    image: mobilizingcs/admin
+  
+  author:
+    image: mobilizingcs/author
+  
+  campaigns:
+    image: mobilizingcs/campaigns
+  
+  classes:
+    image: mobilizingcs/classes
+  
+  documents:
+    image: mobilizingcs/documents
+  
+  monitor:
+    image: mobilizingcs/monitor
+  
+  responses:
+    image: mobilizingcs/responses
 
-rstudio:
-  restart: unless-stopped
-  image: mobilizingcs/rstudio
-  volumes:
-  - .data/rstudio/home:/home
-  links:
-  - mysql:mysql
-  environment:
-  - SYNC=1
-
-mysql:
-  restart: unless-stopped
-  image: mysql:5.6.27
-  # comment out volumes if testing on osx. mysql/docker/osx permissions issue.
-  volumes:
-  - .data/mysql:/var/lib/mysql
-  environment:
-  - MYSQL_ROOT_PASSWORD=setmebetter
-
-pw:
-  restart: unless-stopped
-  image: stevenolen/pw
-
-# ohmage frontend volume-only containers.
-ohmagex:
-  image: mobilizingcs/ohmagex
-  entrypoint: /bin/true
-
-dashboard:
-  image: mobilizingcs/dashboard
-  entrypoint: /bin/true
-
-admin:
-  image: mobilizingcs/admin
-  entrypoint: /true
-
-author:
-  image: mobilizingcs/author
-  entrypoint: /true
-
-campaigns:
-  image: mobilizingcs/campaigns
-  entrypoint: /true
-
-classes:
-  image: mobilizingcs/classes
-  entrypoint: /true
-
-documents:
-  image: mobilizingcs/documents
-  entrypoint: /true
-
-monitor:
-  image: mobilizingcs/monitor
-  entrypoint: /true
-
-responses:
-  image: mobilizingcs/responses
-  entrypoint: /true
+volumes:
+  ohmage-data:
+    external:
+      name: ohmage-data
+  ohmage-db:
+    external:
+      name: ohmage-db
+  rstudio-home:
+    external:
+      name: rstudio-home
+  

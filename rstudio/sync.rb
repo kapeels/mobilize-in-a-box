@@ -4,10 +4,11 @@ require 'mysql2'
 require 'daybreak'
 
 # ohmage mysql location, user/pass source
-mysql_host = 'db'
-mysql_user = 'root'
-mysql_password = ENV['MYSQL_ENV_MYSQL_ROOT_PASSWORD']
-mysql_db = ARGV[0]
+mysql_host = ENV['DB_HOST']
+mysql_db = ENV['MYSQL_DATABASE']
+mysql_user = ENV['MYSQL_USER']
+mysql_password = ENV['MYSQL_PASSWORD']
+
 # all users from this query will be created. remove usernames that don't conform to unix standards.
 mysql_user_query = 'select distinct user.username,user.password from user where username not like "%.%"'
 

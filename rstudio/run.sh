@@ -3,20 +3,20 @@
 # how frequently to sync.
 SYNC=${SYNC:-0}
 SYNC_SECONDS=${SYNC_SECONDS:-120}
-DB_NAME=${DB_NAME:-ohmage}
+DB_HOST=${DB_HOST:-db}
 
 sync() {
 while true
 do
   # wait for mysql to start
   echo -n "ensuring mysql is available before syncing..."
-  while ! nc -w 1 db 3306 &> /dev/null
+  while ! nc -w 1 $DB_HOST 3306 &> /dev/null
   do
     sleep 1
   done
   echo "done."
   rm -f /tmp/account_sync.db
-  /usr/bin/ruby /sync.rb $DB_NAME
+  /usr/bin/ruby /sync.rb
   sleep $SYNC_SECONDS
 done
 }
