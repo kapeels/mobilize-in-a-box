@@ -4,7 +4,7 @@ require 'mysql2'
 require 'daybreak'
 
 # ohmage mysql location, user/pass source
-mysql_host = 'mysql'
+mysql_host = 'db'
 mysql_user = 'root'
 mysql_password = ENV['MYSQL_ENV_MYSQL_ROOT_PASSWORD']
 mysql_db = ARGV[0]

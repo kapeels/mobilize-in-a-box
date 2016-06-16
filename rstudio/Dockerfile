@@ -9,7 +9,7 @@ RUN set -x \
     && echo 'deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/' >> /etc/apt/sources.list \
     && apt-key adv --keyserver keys.gnupg.net --recv-key 381BA480 \
     && apt-get update \
-    && apt-get install -y r-base gdebi git curl libcurl4-openssl-dev ed cron libmysqlclient-dev ruby ruby-dev netcat libxcrypt1 \
+    && apt-get install -y r-base gdebi git curl libcurl4-openssl-dev ed cron libmysqlclient-dev libxml2-dev ruby ruby-dev netcat libxcrypt1 \
     && curl -fSL http://download2.rstudio.org/rstudio-server-${RSTUDIO_VERSION}-amd64.deb -o /tmp/rstudio-server.deb \
     && curl -fSL http://http.us.debian.org/debian/pool/main/libp/libpam-unix2/libpam-unix2_2.4.1-6_amd64.deb -o /tmp/libpam-unix2.deb \
     && gdebi -n /tmp/rstudio-server.deb \
@@ -21,7 +21,7 @@ RUN set -x \
 
 RUN git clone --single-branch https://github.com/mobilizingcs/mobilizr /tmp/MobilizR
 
-RUN /usr/bin/R -e 'install.packages(c("plyr", "dplyr", "mosaic", "ggplot2", "curl", "rstudioapi", "log4r"), repo = "http://cran.rstudio.com")'
+RUN /usr/bin/R -e 'install.packages(c("plyr", "dplyr", "mosaic", "ggplot2", "curl", "rstudioapi", "log4r", "leaflet", "network", "XML"), repo = "http://cran.rstudio.com")'
 
 WORKDIR /tmp
 RUN /usr/bin/R CMD INSTALL MobilizR --library=/usr/local/lib/R/site-library

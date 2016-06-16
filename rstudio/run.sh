@@ -10,7 +10,7 @@ while true
 do
   # wait for mysql to start
   echo -n "ensuring mysql is available before syncing..."
-  while ! nc -w 1 mysql 3306 &> /dev/null
+  while ! nc -w 1 db 3306 &> /dev/null
   do
     sleep 1
   done
