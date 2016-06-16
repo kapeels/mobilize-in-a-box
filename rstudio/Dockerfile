@@ -19,11 +19,10 @@ RUN set -x \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN git clone --single-branch https://github.com/mobilizingcs/mobilizr /tmp/MobilizR
-
 RUN /usr/bin/R -e 'install.packages(c("plyr", "dplyr", "mosaic", "ggplot2", "curl", "rstudioapi", "log4r", "leaflet", "network", "XML"), repo = "http://cran.rstudio.com")'
 
 WORKDIR /tmp
+RUN git clone --single-branch https://github.com/mobilizingcs/mobilizr /tmp/MobilizR
 RUN /usr/bin/R CMD INSTALL MobilizR --library=/usr/local/lib/R/site-library
 
 # set pam to use blowfish to support the ohmage sync script. 
