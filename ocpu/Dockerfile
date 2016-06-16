@@ -17,4 +17,8 @@ RUN /usr/bin/R CMD INSTALL plotbuilder --library=/usr/local/lib/R/site-library
  
 EXPOSE 80
 
+ADD docker_entrypoint.sh /run.sh
+RUN chmod +x /run.sh
+
+ENTRYPOINT ["/run.sh"]
 CMD service opencpu restart && tail -F /var/log/opencpu/apache_access.log
