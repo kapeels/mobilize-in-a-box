@@ -13,7 +13,7 @@ mysql_password = ENV['MYSQL_PASSWORD']
 mysql_user_query = 'select distinct user.username,user.password from user where username not like "%.%"'
 
 # flat file db to hold sync password state
-daybreak_db_file = "/tmp/account_sync.db"
+daybreak_db_file = "/account_sync.db"
 
 # open db connections
 db = Daybreak::DB.new daybreak_db_file
