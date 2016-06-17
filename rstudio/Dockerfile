@@ -1,7 +1,7 @@
 FROM debian:latest
 MAINTAINER Steve Nolen <technolengy@gmail.com>
  
-ENV RSTUDIO_VERSION 0.99.489
+ENV RSTUDIO_VERSION 0.99.902
 
 
 RUN set -x \
