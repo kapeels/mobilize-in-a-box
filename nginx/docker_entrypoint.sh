@@ -49,12 +49,14 @@ fi
 
 # rstudio
 if ping -c 1 rstudio > /dev/null 2>&1; then
-  echo '  location /navbar/rstudio/ {
-    rewrite ^/navbar/rstudio/(.*)$ /$1 break;
-    proxy_pass http://rstudio:8787;
-    proxy_redirect http://rstudio:8787/ $scheme://$host/navbar/rstudio/;
-    proxy_read_timeout 600s;
-  }' >> /etc/nginx/conf.d/default.conf
+  echo '      location /navbar/rstudio/ {
+      rewrite ^/navbar/rstudio/(.*)$ /$1 break;
+      proxy_pass http://rstudio:8787;
+      proxy_redirect http://rstudio:8787/ $scheme://$host/navbar/rstudio/;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_read_timeout 20d;
+    }' >> /etc/nginx/conf.d/default.conf
 fi
 
 # pw generator

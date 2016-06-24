@@ -20,7 +20,7 @@ services:
       - monitor
       - ohmagex
       - responses
-      - demo
+      #- demo
     ports:
       - "80:80"
   
@@ -105,8 +105,8 @@ services:
   responses:
     image: mobilizingcs/responses
 
-  demo:
-    image: mobilizingcs/demo
+  #demo:
+  #  image: mobilizingcs/demo
 
 volumes:
   ohmage-data:
