@@ -2,7 +2,6 @@ version: '2'
 services:
   nginx:
     image: mobilizingcs/nginx
-    #build: nginx/
     depends_on:
       - ohmage
       - ocpu
@@ -49,7 +48,6 @@ services:
   ocpu:
     depends_on:
       - ohmage
-    restart: unless-stopped
     image: mobilizingcs/ocpu
   
   #wiki:
@@ -57,7 +55,6 @@ services:
   #  image: mobilizingcs/wiki
   
   rstudio:
-    restart: unless-stopped
     image: mobilizingcs/rstudio
     volumes:
       - rstudio-home:/home
@@ -69,7 +66,6 @@ services:
       - MYSQL_PASSWORD=ohmage
   
   pw:
-    restart: unless-stopped
     image: stevenolen/pw
   
   # ohmage frontend volume-only containers.
