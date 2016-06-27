@@ -1,37 +1,44 @@
 version: '2'
 services:
- nginx:
-   environment:
-     - FORCE_SSL=true
-     - VIRTUAL_HOST=http://${MIAB_URL},https://${MIAB_URL}
-     - EXCLUDE_PORTS=443
-     - EXTRA_SETTINGS=acl fix_rstudio res.hdr(Location) -m sub rstudio:8787, rspirep ^Location:\ https://rstudio:8787/(.*)      Location:\ https://${MIAB_URL}/navbar/rstudio/\1 if fix_rstudio, acl fix_https res.hdr(Location) -m sub http://, rspirep ^Location:\ http://(.*)      Location:\ https://\1 if fix_https
-   networks:
-     - inside
-     - outside
+  nginx:
+    restart: unless-stopped
+    environment:
+      - FORCE_SSL=true
+      - VIRTUAL_HOST=http://${MIAB_URL},https://${MIAB_URL}
+      - EXCLUDE_PORTS=443
+      - EXTRA_SETTINGS=acl fix_rstudio res.hdr(Location) -m sub rstudio:8787, rspirep ^Location:\ https://rstudio:8787/(.*)      Location:\ https://${MIAB_URL}/navbar/rstudio/\1 if fix_rstudio, acl fix_https res.hdr(Location) -m sub http://, rspirep ^Location:\ http://(.*)      Location:\ https://\1 if fix_https
+    networks:
+      - inside
+      - outside
  
- ohmage:
-   networks:
-     - inside
+  ohmage:
+    restart: unless-stopped
+    networks:
+      - inside
+ 
+  db:
+    restart: unless-stopped
+    networks:
+      - inside
+ 
+  ocpu:
+    restart: unless-stopped
+    networks:
+      - inside
+  
+  rstudio:
+    restart: unless-stopped
+    networks:
+      - inside
+  
+  pw:
+    restart: unless-stopped
+    networks:
+      - inside
 
- db:
-   networks:
-     - inside
-
- ocpu:
-   networks:
-     - inside
- 
- rstudio:
-   networks:
-     - inside
- 
- pw:
-   networks:
-     - inside
 networks:
- outside:
-   external:
-     name: lb_outside
- inside:
-   driver: bridge
+  outside:
+    external:
+      name: lb_outside
+  inside:
+    driver: bridge
