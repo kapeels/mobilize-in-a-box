@@ -15,11 +15,16 @@ services:
     restart: unless-stopped
     networks:
       - inside
+    environment:
+      - MYSQL_PASSWORD=abetterpassword
  
   db:
     restart: unless-stopped
     networks:
       - inside
+    environment:
+      - MYSQL_PASSWORD=abetterpassword
+      - MYSQL_ROOT_PASSWORD=abetterrootpassword
  
   ocpu:
     restart: unless-stopped
@@ -30,6 +35,8 @@ services:
     restart: unless-stopped
     networks:
       - inside
+    environment:
+      - MYSQL_PASSWORD=abetterpassword
   
   pw:
     restart: unless-stopped
