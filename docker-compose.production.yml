@@ -43,6 +43,15 @@ services:
     networks:
       - inside
 
+  # this configuration is not particularly "production" as mail will likely end up in spam!
+  mail:
+    image: alezzandro/postfix
+    restart: unless-stopped
+    environment:
+      - myhostname=${MIAB_URL}
+    networks:
+      - inside
+
 networks:
   outside:
     external:
