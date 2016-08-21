@@ -43,18 +43,29 @@ services:
     networks:
       - inside
 
-  # this configuration is not particularly "production" as mail will likely end up in spam!
+  # a simple postfix container as a sample.
+  # mail:
+  #   image: alezzandro/postfix
+  #   restart: unless-stopped
+  #   environment:
+  #     - myhostname=${MIAB_URL}
+  #   networks:
+  #     - inside
+
+  # if you use mailgun, this is a great way to to integrate all outgoing messages!
   mail:
-    image: alezzandro/postfix
+    image: ryangraham/postfix-mailgun
     restart: unless-stopped
     environment:
-      - myhostname=${MIAB_URL}
+      - MG_USER=mailgun.smtpuser@yourdomain.com
+      - MG_PASS=mailgunsmtppassword
     networks:
       - inside
 
 networks:
   outside:
     external:
+      # if you're using a load balancer as a reverse proxy, don't forget to comment out port 80 in docker-compose.yml
       name: lb_outside
   inside:
     driver: bridge
