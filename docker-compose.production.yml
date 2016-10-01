@@ -16,15 +16,15 @@ services:
     networks:
       - inside
     environment:
-      - MYSQL_PASSWORD=abetterpassword
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
  
   db:
     restart: unless-stopped
     networks:
       - inside
     environment:
-      - MYSQL_PASSWORD=abetterpassword
-      - MYSQL_ROOT_PASSWORD=abetterrootpassword
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
  
   ocpu:
     restart: unless-stopped
@@ -36,29 +36,20 @@ services:
     networks:
       - inside
     environment:
-      - MYSQL_PASSWORD=abetterpassword
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
   
   pw:
     restart: unless-stopped
     networks:
       - inside
 
-  # a simple postfix container as a sample.
-  # mail:
-  #   image: alezzandro/postfix
-  #   restart: unless-stopped
-  #   environment:
-  #     - myhostname=${MIAB_URL}
-  #   networks:
-  #     - inside
-
   # if you use mailgun, this is a great way to to integrate all outgoing messages!
   mail:
     image: stevenolen/mailgun-smtp-server
     restart: unless-stopped
     environment:
-      - MG_KEY=yourmailgunapikey
-      - MG_DOMAIN=yourmailgundomain
+      - MG_KEY=${MG_KEY}
+      - MG_DOMAIN=${MG_DOMAIN}
     networks:
       - inside
 
