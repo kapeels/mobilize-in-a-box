@@ -54,11 +54,11 @@ services:
 
   # if you use mailgun, this is a great way to to integrate all outgoing messages!
   mail:
-    image: ryangraham/postfix-mailgun
+    image: stevenolen/mailgun-smtp-server
     restart: unless-stopped
     environment:
-      - MG_USER=mailgun.smtpuser@yourdomain.com
-      - MG_PASS=mailgunsmtppassword
+      - MG_KEY=yourmailgunapikey
+      - MG_DOMAIN=yourmailgundomain
     networks:
       - inside
 
