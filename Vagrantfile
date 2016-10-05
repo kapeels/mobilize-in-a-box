@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "debian/jessi"
+  config.vm.box = "debian/jessie"
   config.vm.provider "virtualbox", memory: "1024"
   config.vm.network "private_network", ip: "192.168.33.100"
   config.vm.synced_folder ".", "/box", type: "rsync", rsync__exclude: [".git/", ".data/", "package.box"]
