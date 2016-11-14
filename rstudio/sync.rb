@@ -2,7 +2,6 @@
 
 require 'mysql2'
 require 'daybreak'
-
 # ohmage mysql location, user/pass source
 mysql_host = ENV['DB_HOST']
 mysql_db = ENV['MYSQL_DATABASE']
