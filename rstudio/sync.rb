@@ -47,6 +47,7 @@ begin
     new_users.each do |u| # exec! ensures synchronous commands.
       `echo #{u['username']}:dummy::::/home/#{u['username']}:/bin/nologin | newusers`
       `echo '#{u['username']}:#{u['password']}' | chpasswd -e`
+      `chown #{u['username']}:#{u['username']} -R /home/#{u['username']}`
     end
     changed_users.each do |u|
       `echo '#{u['username']}:#{u['password']}' | chpasswd -e`
