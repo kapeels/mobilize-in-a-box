@@ -1,5 +1,4 @@
 #!/bin/ruby
-
 require 'mysql2'
 require 'daybreak'
 # ohmage mysql location, user/pass source
@@ -7,7 +6,6 @@ mysql_host = ENV['DB_HOST']
 mysql_db = ENV['MYSQL_DATABASE']
 mysql_user = ENV['MYSQL_USER']
 mysql_password = ENV['MYSQL_PASSWORD']
-
 mysql_user_query = if ENV.key? 'MYSQL_USER_QUERY'
                      ENV['MYSQL_USER_QUERY']
                    else
