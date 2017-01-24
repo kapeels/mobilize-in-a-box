@@ -15,9 +15,6 @@ mysql_user_query = if ENV.key? 'MYSQL_USER_QUERY'
                      'select distinct user.username,user.password from user'
                    end
 
-# all users from this query will be created.
-mysql_user_query = 'select distinct user.username,user.password from user'
-
 # flat file db to hold sync password state
 daybreak_db_file = "/account_sync.db"
 
