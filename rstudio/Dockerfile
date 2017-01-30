@@ -1,6 +1,7 @@
 FROM debian:jessie
 MAINTAINER Steve Nolen <technolengy@gmail.com>
  
+
 ENV RSTUDIO_VERSION 1.0.44
 
 
@@ -9,8 +10,14 @@ RUN set -x \
     && echo 'deb http://cran.rstudio.com/bin/linux/debian jessie-cran3/' >> /etc/apt/sources.list \
     && apt-key adv --keyserver keys.gnupg.net --recv-key 381BA480 \
     && apt-get update \
-    && apt-get install -y r-base gdebi git curl libcurl4-openssl-dev libssl-dev ed cron libmysqlclient-dev libxml2-dev ruby ruby-dev netcat libxcrypt1 \
-    && curl -fSL http://download2.rstudio.org/rstudio-server-${RSTUDIO_VERSION}-amd64.deb -o /tmp/rstudio-server.deb \
+    && apt-get install -y r-base gdebi git curl libcurl4-openssl-dev libssl-dev ed cron libmysqlclient-dev libxml2-dev ruby ruby-dev netcat libxcrypt1 locales 
+
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
+    /usr/sbin/update-locale LANG=en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
+RUN curl -fSL http://download2.rstudio.org/rstudio-server-${RSTUDIO_VERSION}-amd64.deb -o /tmp/rstudio-server.deb \
     && curl -fSL http://http.us.debian.org/debian/pool/main/libp/libpam-unix2/libpam-unix2_2.4.1-6_amd64.deb -o /tmp/libpam-unix2.deb \
     && gdebi -n /tmp/rstudio-server.deb \
     && dpkg -i /tmp/libpam-unix2.deb\ 
