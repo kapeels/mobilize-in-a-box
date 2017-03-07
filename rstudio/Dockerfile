@@ -27,7 +27,7 @@ RUN curl -fSL http://download2.rstudio.org/rstudio-server-${RSTUDIO_VERSION}-amd
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN /usr/bin/R -e 'install.packages(c("devtools"), repo = "http://cran.rstudio.com")'
-
+RUN /usr/bin/R -e 'devtools::install_version("mosaic",version="0.14.4", repos = "http://cran.us.r-project.org")'
 RUN /usr/bin/R -e 'devtools::install_github("mobilizingcs/mobilizr")'
 
 # set pam to use blowfish to support the ohmage sync script. 
