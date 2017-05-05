@@ -19,9 +19,12 @@ services:
       - monitor
       - ohmagex
       - responses
+      - neo-admin
       #- demo
     ports:
       - "80:80"
+    environment:
+      - NEOADMIN_URL_REWRITE=${NEOADMIN_URL_REWRITE}
   
   ohmage:
     image: ohmage/server
@@ -101,6 +104,9 @@ services:
   
   responses:
     image: mobilizingcs/responses
+
+  neo-admin:
+    image: mobilizingcs/neo-admin
 
   #demo:
   #  image: mobilizingcs/demo

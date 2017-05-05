@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+NEOADMIN_URL_REWRITE=${NEOADMIN_URL_REWRITE:-disabled}
+
 ln -s /ohmage-frontends /var/www/webapps
 ln -s /var/www/webapps /var/www/navbar
 chown -R www-data.www-data /var/www/
@@ -11,8 +13,18 @@ echo 'server {
 
   location / {
     root   /var/www;
-    index  index.html index.htm;
-  }
+    index  index.html index.htm;' > /etc/nginx/conf.d/default.conf
+
+# neo-admin rewrite rule
+if [ $NEOADMIN_URL_REWRITE == "enabled" ]
+then
+  echo '    location /navbar/neo-admin/ {
+      try_files $uri $uri/ /navbar/neo-admin/index.html;
+    }
+    location = /navbar/neo-admin/index.html { }' >> /etc/nginx/conf.d/default.conf
+fi
+
+echo '  }
 
   location /app/ {
     proxy_pass http://ohmage:8080/app/;
@@ -31,7 +43,7 @@ echo 'server {
   location /navbar/plotapp/ {
     proxy_pass http://ocpu:80/ocpu/library/plotbuilder/www/;
   }
-  rewrite /navbar/plotapp$ /navbar/plotapp/ permanent;' > /etc/nginx/conf.d/default.conf
+  rewrite /navbar/plotapp$ /navbar/plotapp/ permanent;' >> /etc/nginx/conf.d/default.conf
 
 # now we case out the additions of other backends depending on if they are available on the network
 # this is important because nginx dies if it can't find an upstream
