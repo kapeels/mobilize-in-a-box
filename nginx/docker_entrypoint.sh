@@ -16,7 +16,7 @@ echo 'server {
     index  index.html index.htm;' > /etc/nginx/conf.d/default.conf
 
 # neo-admin rewrite rule
-if [ $NEOADMIN_URL_REWRITE == "enabled" ]
+if [ "$NEOADMIN_URL_REWRITE" == "enabled" ]
 then
   echo '    location /navbar/neo-admin/ {
       try_files $uri $uri/ /navbar/neo-admin/index.html;
